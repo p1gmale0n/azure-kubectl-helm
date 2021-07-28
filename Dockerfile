@@ -2,6 +2,7 @@ FROM mcr.microsoft.com/azure-cli
 
 ARG HELM_VERSION=3.6.3
 ARG KUBECTL_VERSION=v1.21.3
+ARG HELMFILE_VERSION=0.140.0
 
 ENV BASE_URL="https://get.helm.sh"
 ENV TAR_FILE="helm-v${HELM_VERSION}-linux-amd64.tar.gz"
@@ -15,5 +16,8 @@ RUN apk add --update --no-cache curl ca-certificates bash git && \
 RUN curl -sLO https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl && \
     mv kubectl /usr/bin/kubectl && \
     chmod +x /usr/bin/kubectl
+
+ADD https://github.com/roboll/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_linux_amd64 /bin/helmfile
+RUN chmod 0755 /bin/helmfile
 
 WORKDIR /apps
